@@ -1,0 +1,333 @@
+1.Create a table employee, with the following fields and constraints added to each field
+id (primary key)
+name (not null)
+department (like marketing, sales, development, testing, devops etc) (not null)
+branch (use any city name)  (a null field)
+salary ( a five-digit value) ( a not null field with default value 0)
+
+
+
+command : CREATE TABLE employee(id serial primary key,name varchar(50) not null,department varchar(50) not null,branch varchar(50) null,salary int not null default 0);
+                                     
+   Column   |         Type          | Collation | Nullable |               Default                
+------------+-----------------------+-----------+----------+--------------------------------------
+ id         | integer               |           | not null | nextval('employee_id_seq'::regclass)
+ name       | character varying(50) |           | not null | 
+ department | character varying(50) |           | not null | 
+ branch     | character varying(50) |           |          | 
+ salary     | integer               |           | not null | 0
+Indexes:
+    "employee_pkey" PRIMARY KEY, btree (id)
+    
+ALTER TABLE Employee 
+ALTER COLUMN salary SET DATA TYPE NUMERIC(5,0),
+ALTER COLUMN salary SET NOT NULL,
+ALTER COLUMN salary SET DEFAULT 0;
+
+    
+    
+    
+2.Insert at least 10 records into the employee table with relevant data.
+
+command : INSERT INTO employee (name,department,branch,salary) values ('Fasilath','Devops','Delhi',40000.00);
+ id |   name   | department  |  branch  | salary 
+----+----------+-------------+----------+--------
+  1 | Sona     | Marketing   | Tokyo    |  56000
+  2 | Linda    | Marketing   | New York |  45000
+  3 | Liya     | Marketing   | Being    |  46000
+  4 | Lenin    | Sales       | Being    |  46000
+  5 | Manu     | Sales       | New York |  46000
+  6 | Miya     | Development | China    |  40000
+  7 | Lizz     | Development | Tokyo    |  40000
+  8 | Lizbath  | Development | Tokyo    |  45000
+  9 | Lin      | Development | China    |  45000
+ 10 | Lin      | Testing     | China    |  41000
+ 11 | Haritha  | Testing     | China    |  40000
+ 12 | Christo  | Testing     | Tokyo    |  48000
+ 13 | Fasilath | Devops      | Delhi    |  40000
+ 14 | Aiswarya | Devops      | Delhi    |  10000
+ 15 | Limna    | Devops      | Delhi    |  10200
+ 
+ 
+ 3.Add the field email, and phone_number with null constraint. (Phone Number can be a string)
+ 
+ command : ALTER TABLE employee ADD COLUMN email varchar(100) null unique;
+           ALTER TABLE employee ADD COLUMN phone_number varchar(20) null;
+           
+id |   name   | department  |  branch  | salary | email | phone_number 
+----+----------+-------------+----------+--------+-------+--------------
+  1 | Sona     | Marketing   | Tokyo    |  56000 |       | 
+  2 | Linda    | Marketing   | New York |  45000 |       | 
+  3 | Liya     | Marketing   | Being    |  46000 |       | 
+  4 | Lenin    | Sales       | Being    |  46000 |       | 
+  5 | Manu     | Sales       | New York |  46000 |       | 
+  6 | Miya     | Development | China    |  40000 |       | 
+  7 | Lizz     | Development | Tokyo    |  40000 |       | 
+  8 | Lizbath  | Development | Tokyo    |  45000 |       | 
+  9 | Lin      | Development | China    |  45000 |       | 
+ 10 | Lin      | Testing     | China    |  41000 |       | 
+ 11 | Haritha  | Testing     | China    |  40000 |       | 
+ 12 | Christo  | Testing     | Tokyo    |  48000 |       | 
+ 13 | Fasilath | Devops      | Delhi    |  40000 |       | 
+ 14 | Aiswarya | Devops      | Delhi    |  10000 |       | 
+ 15 | Limna    | Devops      | Delhi    |  10200 |       | 
+(15 rows)
+
+          
+4.Modify the field salary to remove default constraints added to it.
+
+command : ALTER TABLE employee ALTER COLUMN salary DROP default;
+
+5.Update the fields phone_number and email for the employee having a salary between 10100 and 50045 and their department should be either marketing or testing.
+
+command : UPDATE employee SET phone_number='7909137467',email='sennansona@gmail.com' WHERE salary BETWEEN 10100 AND 50045 AND department IN ('Marketing','Testing');
+UPDATE 5
+
+assignment=# select * from employee;
+ id |   name   | department  |  branch  | salary |        email         | phone_number 
+----+----------+-------------+----------+--------+----------------------+--------------
+  1 | Sona     | Marketing   | Tokyo    |  56000 |                      | 
+  4 | Lenin    | Sales       | Being    |  46000 |                      | 
+  5 | Manu     | Sales       | New York |  46000 |                      | 
+  6 | Miya     | Development | China    |  40000 |                      | 
+  7 | Lizz     | Development | Tokyo    |  40000 |                      | 
+  8 | Lizbath  | Development | Tokyo    |  45000 |                      | 
+  9 | Lin      | Development | China    |  45000 |                      | 
+ 13 | Fasilath | Devops      | Delhi    |  40000 |                      | 
+ 14 | Aiswarya | Devops      | Delhi    |  10000 |                      | 
+ 15 | Limna    | Devops      | Delhi    |  10200 |                      | 
+  2 | Linda    | Marketing   | New York |  45000 | sennansona@gmail.com | 7909137467
+  3 | Liya     | Marketing   | Being    |  46000 | sennansona@gmail.com | 7909137467
+ 10 | Lin      | Testing     | China    |  41000 | sennansona@gmail.com | 7909137467
+ 11 | Haritha  | Testing     | China    |  40000 | sennansona@gmail.com | 7909137467
+ 12 | Christo  | Testing     | Tokyo    |  48000 | sennansona@gmail.com | 7909137467
+(15 rows)
+
+
+
+6. Update email for the rest of the employees.
+
+command : UPDATE employee SET email='sona@gmail.com' WHERE id=1;
+          UPDATE employee SET email='lenin@gmail.com' WHERE id=4;
+          
+ id |   name   | department  |  branch  | salary |        email        | phone_number 
+----+----------+-------------+----------+--------+---------------------+--------------
+  1 | Sona     | Marketing   | Tokyo    |  56000 | sona@gmail.com      | 
+  4 | Lenin    | Sales       | Being    |  46000 | lenin@gmail.com     | 
+  5 | Manu     | Sales       | New York |  46000 | manu@gmail.com      | 
+  6 | Miya     | Development | China    |  40000 | miya@gmail.com      | 
+  7 | Lizz     | Development | Tokyo    |  40000 | lizz@gmail.com      | 
+  8 | Lizbath  | Development | Tokyo    |  45000 | lizbath@gmail.com   | 
+  9 | Lin      | Development | China    |  45000 | lin@gmail.com       | 
+ 13 | Fasilath | Devops      | Delhi    |  40000 | fasilath@gmail.com  | 
+ 14 | Aiswarya | Devops      | Delhi    |  10000 | aiswarya@gmail.com  | 
+ 15 | Limna    | Devops      | Delhi    |  10200 | limna@gmail.com     | 
+  2 | Linda    | Marketing   | New York |  45000 | linda@example.com   | 7909137467
+  3 | Liya     | Marketing   | Being    |  46000 | liyaa@example.com   | 7909137467
+ 10 | Lin      | Testing     | China    |  41000 | linn@example.com    | 7909137467
+ 11 | Haritha  | Testing     | China    |  40000 | haritha@example.com | 7909137467
+ 12 | Christo  | Testing     | Tokyo    |  48000 | christo@example.com | 7909137467
+ 
+ 
+ 7.Modify the field email to add a UNIQUE constraint to it.
+ 
+ command : ALTER TABLE employee ADD CONSTRAINT UNIQUE_email UNIQUE(email);
+ 
+ 8.Select all the employees
+ 
+ command : SELECT name from employee;
+   name   
+----------
+ Sona
+ Lenin
+ Manu
+ Miya
+ Lizz
+ Lizbath
+ Lin
+ Fasilath
+ Aiswarya
+ Limna
+ Linda
+ Liya
+ Lin
+ Haritha
+ Christo
+(15 rows)
+
+select * from employee;
+ id |   name   | department  |  branch  | salary |        email        | phone_number 
+----+----------+-------------+----------+--------+---------------------+--------------
+  1 | Sona     | Marketing   | Tokyo    |  56000 | sona@gmail.com      | 
+  4 | Lenin    | Sales       | Being    |  46000 | lenin@gmail.com     | 
+  5 | Manu     | Sales       | New York |  46000 | manu@gmail.com      | 
+  6 | Miya     | Development | China    |  40000 | miya@gmail.com      | 
+  7 | Lizz     | Development | Tokyo    |  40000 | lizz@gmail.com      | 
+  8 | Lizbath  | Development | Tokyo    |  45000 | lizbath@gmail.com   | 
+  9 | Lin      | Development | China    |  45000 | lin@gmail.com       | 
+ 13 | Fasilath | Devops      | Delhi    |  40000 | fasilath@gmail.com  | 
+ 14 | Aiswarya | Devops      | Delhi    |  10000 | aiswarya@gmail.com  | 
+ 15 | Limna    | Devops      | Delhi    |  10200 | limna@gmail.com     | 
+  2 | Linda    | Marketing   | New York |  45000 | linda@example.com   | 7909137467
+  3 | Liya     | Marketing   | Being    |  46000 | liyaa@example.com   | 7909137467
+ 10 | Lin      | Testing     | China    |  41000 | linn@example.com    | 7909137467
+ 11 | Haritha  | Testing     | China    |  40000 | haritha@example.com | 7909137467
+ 12 | Christo  | Testing     | Tokyo    |  48000 | christo@example.com | 7909137467
+
+
+9.Select id, name, email from employees having a salary greater than or equal to 45000, the department should contain the string ‘maRKeT’, and the branch can be ‘Being’, ‘Tokyo’ or ‘New York’.
+Select only the first 5 records in the descending order of salary. (You can add new records into the employee table if necessary)
+
+
+command : select id,name,email from employee where salary >= 45000 and department ilike 'maRKeT%' and branch in('Being','Tokyo','New York') order by salary DESC limit 5;
+ id | name  |       email       
+----+-------+-------------------
+ 16 | Jesna | jesna@example.com
+ 17 | Ashiq | ashik@example.com
+  1 | Sona  | sona@gmail.com
+ 18 | Alen  | alen@example.com
+  3 | Liya  | liyaa@example.com
+  
+  
+  
+10. Select all the employees having phone_number null;
+
+command : select name from employee where phone_number is NULL;
+   name   
+----------
+ Sona
+ Lenin
+ Manu
+ Miya
+ Lizz
+ Lizbath
+ Lin
+ Fasilath
+ Aiswarya
+ Limna
+ Jesna
+ Ashiq
+ Alen
+(13 rows)
+
+
+11.Find the no. of employees in each department with a count greater than 3. Display in the ascending order of the department.
+
+command : select department,count(name) from employee group by department having count(name)>3 order by department;
+ department  | count 
+-------------+-------
+ Development |     4
+ Marketing   |     6
+(2 rows)
+
+12.Find the maximum, minimum, and average salary in each department.
+command : select department , max(salary) , min(salary) , avg(salary) from employee group by department;
+ department  |  max  |  min  |        avg         
+-------------+-------+-------+--------------------
+ Testing     | 48000 | 40000 | 43000.000000000000
+ Sales       | 46000 | 46000 | 46000.000000000000
+ Development | 45000 | 40000 | 42500.000000000000
+ Devops      | 40000 | 10000 | 20066.666666666667
+ Marketing   | 58000 | 45000 | 52166.666666666667
+
+ 
+ 
+13.Find distinct emails from the employee table.
+command : select distinct email from employee;
+
+        email        
+---------------------
+ jesna@example.com
+ sona@gmail.com
+ linda@example.com
+ lizz@gmail.com
+ lenin@gmail.com
+ limna@gmail.com
+ lin@gmail.com
+ christo@example.com
+ aiswarya@gmail.com
+ ashik@example.com
+ miya@gmail.com
+ manu@gmail.com
+ haritha@example.com
+ linn@example.com
+ lizbath@gmail.com
+ alen@example.com
+ liyaa@example.com
+ fasilath@gmail.com
+(18 rows)
+
+
+
+14.Find the no. of employees in each department whose name starts with the letter ‘L’.
+
+command : select department,count(name) from employee where name ilike 'L%' group by department;
+
+ department  | count 
+-------------+-------
+ Testing     |     1
+ Sales       |     1
+ Development |     3
+ Devops      |     1
+ Marketing   |     2
+(5 rows)
+
+
+
+15.Find the no. of employees, no. of employees with phone_number in each city.
+
+command : select branch,count(*) as number_of_employees_in_each_department , count(phone_number) as number_of_employees_with_phn_number from employee group by branch;
+
+  branch  | number_of_employees_in_each_department | number_of_employees_with_phn_number 
+----------+----------------------------------------+-------------------------------------
+ Being    |                                      4 |                                   1
+ New York |                                      2 |                                   1
+ Delhi    |                                      3 |                                   0
+ China    |                                      4 |                                   2
+ Tokyo    |                                      5 |                                   1
+(5 rows)
+
+
+
+16.Delete the employee records with no phone_number and should belong to the city ‘Tokyo’. 
+command : mdelete from employee where phone_number is null and branch='Tokyo';
+DELETE 4
+select * from employee;
+ id |   name   | department  |  branch  | salary |        email        | phone_number 
+----+----------+-------------+----------+--------+---------------------+--------------
+  4 | Lenin    | Sales       | Being    |  46000 | lenin@gmail.com     | 
+  5 | Manu     | Sales       | New York |  46000 | manu@gmail.com      | 
+  6 | Miya     | Development | China    |  40000 | miya@gmail.com      | 
+  9 | Lin      | Development | China    |  45000 | lin@gmail.com       | 
+ 13 | Fasilath | Devops      | Delhi    |  40000 | fasilath@gmail.com  | 
+ 14 | Aiswarya | Devops      | Delhi    |  10000 | aiswarya@gmail.com  | 
+ 15 | Limna    | Devops      | Delhi    |  10200 | limna@gmail.com     | 
+  2 | Linda    | Marketing   | New York |  45000 | linda@example.com   | 7909137467
+  3 | Liya     | Marketing   | Being    |  46000 | liyaa@example.com   | 7909137467
+ 10 | Lin      | Testing     | China    |  41000 | linn@example.com    | 7909137467
+ 11 | Haritha  | Testing     | China    |  40000 | haritha@example.com | 7909137467
+ 12 | Christo  | Testing     | Tokyo    |  48000 | christo@example.com | 7909137467
+ 16 | Jesna    | Marketing   | Being    |  58000 | jesna@example.com   | 
+ 17 | Ashiq    | Marketing   | Being    |  58000 | ashik@example.com   | 
+(14 rows)
+
+
+
+
+
+
+
+
+          
+          
+
+
+
+
+
+    
+    
+
+
+
+
